@@ -18,7 +18,7 @@
 
    //Creating the database
    $sql ="CREATE DATABASE phpnewclass";
-   $query =mysqli_query($sql, $connection);
+   $query =mysqli_query($connection, $sql);
 
    if(!$query){
       die('Cannot create the database'.mysqli_error());
