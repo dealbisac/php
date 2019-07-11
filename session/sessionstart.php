@@ -1,21 +1,25 @@
+<?php
+session_start();
+if(isset($_SESSION['counter'])){
+    $_SESSION['counter']+=1;
+}else{
+    $_SESSION['counter']=1;
+}
+$message = "You have visited this page <b>".$_SESSION['counter']."</b> times";
+$message .= " in this session";
+
+?>
 <html>
 <head>
-<title>Reading a file using PHP</title>
+<title>Session Example</title>
 </head>
 <body>
 <?php
-$filename = "C:\Users\chand\OneDrive\Pictures\Documents\Page Print.txt";
-$file = fopen( $filename, "r" );
-if( $file == false )
-{
- echo ( "Error in opening file" );
- exit();
-}
-$filesize = filesize( $filename );
-$filetext = fread( $file, $filesize );
-fclose( $file );
-echo ( "File size : $filesize bytes" );
-echo ( "<pre>$filetext</pre>" );
-?>               
+echo $message;
+#session_destroy();
+
+unset($_SESSION['counter']);
+
+?>
 </body>
 </html>
