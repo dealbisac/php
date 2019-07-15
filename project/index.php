@@ -1,11 +1,12 @@
 <?php
 require('connection.php');
 
-$sql = "SELECT * FROM `userinfo` WHERE id=1";
+//fetching the value of userinfo table
+$usersql = "SELECT * FROM `userinfo` WHERE id=1";
 
-$result = mysqli_query($connection, $sql);
- if (mysqli_num_rows($result) > 0) {
-      while($row = mysqli_fetch_assoc($result)) {
+$result1 = mysqli_query($connection, $usersql);
+ if (mysqli_num_rows($result1) > 0) {
+      while($row = mysqli_fetch_assoc($result1)) {
               $name       =$row["name"];
               $profession =$row["profession"];
               $address    =$row["address"];
@@ -15,7 +16,11 @@ $result = mysqli_query($connection, $sql);
       } else {
           echo "0 results";
       }
-      mysqli_close($connection);
+
+  //fetching the value of skills table
+  $skillsql = "SELECT * FROM `skills` WHERE `userid`=1";
+
+  $result2 = mysqli_query($connection, $skillsql);
 
 
 ?>
@@ -56,24 +61,20 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <hr>
 
           <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b></p>
-          <p>Adobe Photoshop</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:90%">90%</div>
-          </div>
-          <p>Photography</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:80%">
-              <div class="w3-center w3-text-white">80%</div>
-            </div>
-          </div>
-          <p>Illustrator</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:75%">75%</div>
-          </div>
-          <p>Media</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:50%">50%</div>
-          </div>
+          <?php
+          if (mysqli_num_rows($result2) > 0) {
+            while($row = mysqli_fetch_assoc($result2)) {
+              echo "<p>".$row["skilledon"]."</p>";
+              echo "<div class='w3-light-grey w3-round-xlarge w3-small'>";
+              echo "<div class='w3-container w3-center w3-round-xlarge w3-teal' style='width:".$row["level"]."'>".$row["level"]."</div>";
+              echo "</div>";
+                }
+            } else {
+                echo "0 results";
+            }
+      
+          ?>
+          
           <br>
 
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Languages</b></p>
