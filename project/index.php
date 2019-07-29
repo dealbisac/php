@@ -29,6 +29,14 @@ $langaugeresult = mysqli_query($connection, $langaugesql);
 $worksql = "SELECT * FROM `work` WHERE `userid`=1";
 $workresult = mysqli_query($connection, $worksql);
 
+//fetching the value of education table
+$educationsql = "SELECT * FROM `education` WHERE `userid`=1";
+$educationresult = mysqli_query($connection, $educationsql);
+
+//fetching the value of social table
+$socialsql = "SELECT * FROM `social` WHERE `userid`=1";
+$socialresult = mysqli_query($connection, $socialsql);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -120,6 +128,28 @@ if(mysqli_num_rows($workresult)>0){
     }
     echo "<p>".$row["description"]."</p>";
     echo "<hr></div>";
+  }//end of while
+}else{
+  echo "No results found";
+}//end of if
+?>
+</div>
+
+<div class="w3-container w3-card w3-white">
+<h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
+<?php
+if(mysqli_num_rows($educationresult)>0){
+  while($row = mysqli_fetch_assoc($educationresult)){
+    echo "<div class='w3-container'>";
+    echo "<h5 class='w3-opacity'><b>".$row["level"]." - ".$row["school"]."</b></h5>";
+    echo "<h6 class='w3-text-teal'><i class='fa fa-calendar fa-fw w3-margin-right'></i>".$row["startdate"]." - "; 
+    if($row["enddate"]==NULL){
+      echo "<span class='w3-tag w3-teal w3-round'>Current</span></h6>";
+    }else{
+      echo $row["enddate"]."</span></h6>";
+    }
+    echo "<p>".$row["grade"]."</p>";
+    echo "<hr></div>";
   }
 
 
@@ -128,27 +158,6 @@ if(mysqli_num_rows($workresult)>0){
 }
 
 ?>
-</div>
-
-<div class="w3-container w3-card w3-white">
-<h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
-<div class="w3-container">
-<h5 class="w3-opacity"><b>W3Schools.com</b></h5>
-<h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-<p>Web Development! All I need to know in one place</p>
-<hr>
-</div>
-<div class="w3-container">
-<h5 class="w3-opacity"><b>London Business School</b></h5>
-<h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2013 - 2015</h6>
-<p>Master Degree</p>
-<hr>
-</div>
-<div class="w3-container">
-<h5 class="w3-opacity"><b>School of Coding</b></h5>
-<h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2010 - 2013</h6>
-<p>Bachelor Degree</p><br>
-</div>
 </div>
 
 <!-- End Right Column -->
@@ -162,12 +171,29 @@ if(mysqli_num_rows($workresult)>0){
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
 <p>Find me on social media.</p>
-<a href="" target="_blank"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
-<i class="fa fa-instagram w3-hover-opacity"></i>
-<i class="fa fa-snapchat w3-hover-opacity"></i>
-<i class="fa fa-pinterest-p w3-hover-opacity"></i>
-<i class="fa fa-twitter w3-hover-opacity"></i>
-<i class="fa fa-linkedin w3-hover-opacity"></i>
+<?php
+if(mysqli_num_rows($socialresult)>0){
+  while($row = mysqli_fetch_assoc($socialresult)){
+    if($row["name"]=="Facebook"){
+      echo "<a href='".$row["link"]."' target='_blank'><i class='fa fa-facebook-official w3-hover-opacity'></i></a>";
+    }elseif($row["name"]=="Twitter"){
+      echo "<a href='".$row["link"]."' target='_blank'><i class='fa fa-twitter w3-hover-opacity'></i></a>";
+    }elseif($row["name"]=="Linkedin"){
+      echo "<a href='".$row["link"]."' target='_blank'><i class='fa fa-linkedin w3-hover-opacity'></i></a>";
+    }elseif($row["name"]=="Instagram"){
+      echo "<a href='".$row["link"]."' target='_blank'><i class='fa fa-instagram w3-hover-opacity'></i></a>";
+    }elseif($row["name"]=="Pinterest"){
+      echo "<a href='".$row["link"]."' target='_blank'><i class='fa fa-pinterest w3-hover-opacity'></i></a>";
+    }
+    
+  }//end of while
+
+}else{
+  echo "No results found";
+}
+
+?>
+
 <p>Powered by <a href="https://dipendrachand.com.np" target="_blank">dealbisac</a></p>
 </footer>
 
